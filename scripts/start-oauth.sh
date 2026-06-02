@@ -14,5 +14,10 @@ if [[ $HOME == "${ORIGINAL_HOME:-/home/bennett}" || $HOME == /home/bennett ]]; t
   exit 2
 fi
 
+if ss -ltn '( sport = :8976 )' | tail -n +2 | grep -q .; then
+  printf 'refusing OAuth start: callback port 8976 is already in use; inspect it and run ./scripts/stop-oauth.sh only for a stale Wrangler listener.\n' >&2
+  exit 2
+fi
+
 export BROWSER=echo
 exec npx wrangler login --callback-host=127.0.0.1
