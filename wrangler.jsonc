@@ -1,0 +1,60 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "x402-multitoken-worker",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-01-14",
+  "compatibility_flags": ["nodejs_compat_v2"],
+  "workers_dev": true,
+  "vars": {
+    "NETWORK": "mainnet",
+    "RELAY_URL": "https://x402-relay.aibtc.com"
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "REPLAY_GUARD",
+        "class_name": "ReplayGuard"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["ReplayGuard"]
+    }
+  ],
+  "env": {
+    "staging": {
+      "name": "x402-multitoken-worker-staging",
+      "workers_dev": true,
+      "durable_objects": {
+        "bindings": [
+          {
+            "name": "REPLAY_GUARD",
+            "class_name": "ReplayGuard"
+          }
+        ]
+      },
+      "vars": {
+        "NETWORK": "testnet",
+        "RELAY_URL": "https://x402-relay.aibtc.dev"
+      }
+    },
+    "production": {
+      "name": "x402-multitoken-worker",
+      "workers_dev": true,
+      "durable_objects": {
+        "bindings": [
+          {
+            "name": "REPLAY_GUARD",
+            "class_name": "ReplayGuard"
+          }
+        ]
+      },
+      "vars": {
+        "NETWORK": "mainnet",
+        "RELAY_URL": "https://x402-relay.aibtc.com"
+      }
+    }
+  }
+}

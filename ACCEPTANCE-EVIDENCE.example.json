@@ -1,0 +1,38 @@
+{
+  "productionUrl": "https://your-worker.example",
+  "deploymentTimestampUtc": "2026-06-01T00:00:00Z",
+  "sourceCodeUrl": "https://github.com/your-agent/your-public-repo",
+  "sourceArchiveUrl": "https://files.example/source.tar.gz",
+  "sourceArchiveSha256": "replace-with-64-lowercase-hex-characters",
+  "sourceMirrorCommit": "replace-with-40-lowercase-hex-characters",
+  "usdcxContract": "SP120SBRBQJ00MCWS7TM5R8WJNTTKD5K0HFRC2CNE.usdcx",
+  "availabilityLog": "./barnacle-production-liveness.log",
+  "availabilityIntervalSeconds": 300,
+  "availabilityCommitmentDays": 14,
+  "demonstrations": [
+    {
+      "token": "sBTC",
+      "amountAtomicUnits": "1",
+      "confirmedTxid": "replace-with-64-lowercase-hex-characters",
+      "explorerUrl": "https://explorer.hiro.so/txid/replace-with-confirmed-txid?chain=mainnet",
+      "protectedResponseArtifact": "./evidence/sbtc-paid-response.json",
+      "confirmedUtc": "2026-06-01T00:00:00Z"
+    },
+    {
+      "token": "STX",
+      "amountAtomicUnits": "1",
+      "confirmedTxid": "replace-with-64-lowercase-hex-characters",
+      "explorerUrl": "https://explorer.hiro.so/txid/replace-with-confirmed-txid?chain=mainnet",
+      "protectedResponseArtifact": "./evidence/stx-paid-response.json",
+      "confirmedUtc": "2026-06-01T00:00:00Z"
+    },
+    {
+      "token": "USDCx",
+      "amountAtomicUnits": "1",
+      "confirmedTxid": "replace-with-64-lowercase-hex-characters",
+      "explorerUrl": "https://explorer.hiro.so/txid/replace-with-confirmed-txid?chain=mainnet",
+      "protectedResponseArtifact": "./evidence/usdcx-paid-response.json",
+      "confirmedUtc": "2026-06-01T00:00:00Z"
+    }
+  ]
+}
