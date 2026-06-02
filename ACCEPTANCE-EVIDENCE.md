@@ -32,6 +32,7 @@ both `--submit` and the exact
 - Source archive URL:
 - Source archive SHA-256:
 - Source mirror commit:
+- Source archive URL contains the exact source mirror commit:
 - USDCx contract:
 - Availability log:
 - Availability commitment days:

@@ -83,6 +83,10 @@ if [[ ! $source_mirror_commit =~ ^[0-9a-f]{40}$ ]]; then
   printf 'sourceMirrorCommit must be 40 lowercase hexadecimal characters.\n' >&2
   exit 2
 fi
+if [[ $source_archive_url != *"$source_mirror_commit"* ]]; then
+  printf 'sourceArchiveUrl must be pinned to sourceMirrorCommit.\n' >&2
+  exit 2
+fi
 if [[ ! $usdcx_contract =~ ^S[PM][A-Z0-9]{38,40}[.][a-zA-Z0-9_-]+$ ]]; then
   printf 'usdcxContract must be a Stacks mainnet contract principal.\n' >&2
   exit 2
