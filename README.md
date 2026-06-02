@@ -97,6 +97,9 @@ export BARNACLE_WRANGLER_HOME=/path/to/lane-owned-wrangler-home
 # Run in a short-lived tmux window when the remote browser is ready.
 ./scripts/start-oauth.sh
 
+# If approval is abandoned or the callback state becomes stale, stop the listener.
+./scripts/stop-oauth.sh
+
 # After browser approval, complete the returned localhost callback on this host.
 ./scripts/complete-oauth-callback.sh \
   'http://localhost:8976/oauth/callback?code=...&state=...'
