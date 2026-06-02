@@ -45,6 +45,12 @@ EOF
   exit 2
 fi
 
+wrangler_secret_output=$(npx wrangler secret list --env production 2>&1)
+if ! rg -q 'RECIPIENT_ADDRESS' <<<"$wrangler_secret_output"; then
+  printf 'RECIPIENT_ADDRESS is not present in the production Wrangler secret list; refusing deployment.\n' >&2
+  exit 2
+fi
+
 deploy_log=$(mktemp)
 trap 'rm -f "$deploy_log"' EXIT
 npx wrangler deploy --env production | tee "$deploy_log"

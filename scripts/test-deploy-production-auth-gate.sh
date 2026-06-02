@@ -20,6 +20,11 @@ if [[ $* == 'wrangler deploy --dry-run --env production' ]]; then
   exit 0
 fi
 
+if [[ $* == 'wrangler secret list --env production' ]]; then
+  printf '%s\n' "${FAKE_WRANGLER_SECRET_OUTPUT:-}"
+  exit 0
+fi
+
 printf 'unexpected npx invocation: %s\n' "$*" >&2
 exit 1
 EOF
@@ -49,6 +54,27 @@ FAKE_WRANGLER_WHOAMI_OUTPUT='You are logged in with an OAuth Token.' \
 
 if [[ $(<"$FAKE_WRANGLER_CALL_LOG") != dry-run-called ]]; then
   printf 'authenticated dry-run did not reach Wrangler deploy\n' >&2
+  exit 1
+fi
+
+rm "$FAKE_WRANGLER_CALL_LOG"
+set +e
+FAKE_WRANGLER_WHOAMI_OUTPUT='You are logged in with an OAuth Token.' \
+  BARNACLE_RECIPIENT_SECRET_READY=1 \
+  "$root/scripts/deploy-production.sh" --deploy >"$test_root/missing-recipient-secret.log" 2>&1
+missing_secret_status=$?
+set -e
+
+if [[ $missing_secret_status != 2 ]]; then
+  printf 'expected missing-recipient-secret deploy to exit 2, got %s\n' "$missing_secret_status" >&2
+  exit 1
+fi
+if [[ -e $FAKE_WRANGLER_CALL_LOG ]]; then
+  printf 'missing-recipient-secret deploy reached Wrangler deploy unexpectedly\n' >&2
+  exit 1
+fi
+if ! rg -q 'RECIPIENT_ADDRESS is not present' "$test_root/missing-recipient-secret.log"; then
+  printf 'missing-recipient-secret deploy did not explain refusal\n' >&2
   exit 1
 fi
 
