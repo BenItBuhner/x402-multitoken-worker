@@ -23,7 +23,12 @@ if [[ $HOME == "${ORIGINAL_HOME:-/home/bennett}" || $HOME == /home/bennett ]]; t
   exit 2
 fi
 
-npx wrangler whoami >/dev/null
+wrangler_auth_output=$(npx wrangler whoami 2>&1)
+if [[ -z $wrangler_auth_output ]] ||
+  rg -qi 'not authenticated|run `?wrangler login`?' <<<"$wrangler_auth_output"; then
+  printf 'Wrangler is not authenticated in isolated HOME=%s; run ./scripts/start-oauth.sh first.\n' "$HOME" >&2
+  exit 2
+fi
 
 if [[ $mode == --dry-run ]]; then
   npx wrangler deploy --dry-run --env production
